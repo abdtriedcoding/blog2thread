@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+import Link from "next/link";
 import { ChevronsLeftRight } from "lucide-react";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -38,6 +39,12 @@ export default async function UserProfileMenu() {
       <DropdownMenuContent className="w-60 mr-3">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href={"/dashboard"}>Dashboard</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={"/create"}>Create</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <LogoutLink>Logout</LogoutLink>
         </DropdownMenuItem>
