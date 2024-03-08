@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
+
+import UserProfileMenu from "./userprofile-menu";
 
 export const Navbar = async () => {
   const { getUser } = getKindeServerSession();
@@ -13,9 +15,7 @@ export const Navbar = async () => {
         Blog2Thread
       </Link>
       {user ? (
-        <Button asChild>
-          <LogoutLink>Logout</LogoutLink>
-        </Button>
+        <UserProfileMenu />
       ) : (
         <Button asChild>
           <LoginLink>Log in</LoginLink>
