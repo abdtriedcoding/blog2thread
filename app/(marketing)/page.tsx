@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Github } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -8,12 +10,18 @@ export default function Home() {
         <h2 className="font-black bg-gradient-to-b from-zinc-800 via-neutral-600 to-stone-800 text-[3rem] md:text-[4.5rem] lg:text-[5rem] text-transparent bg-clip-text leading-none tracking-tight mb-8 lg:text-left text-center">
           turn your blogs into concise twitter threads
         </h2>
-        <Button>Get Started</Button>
+        <Link
+          href={"https://github.com/abdtriedcoding"}
+          className={buttonVariants({ variant: "secondary", size: "lg" })}
+        >
+          <Github className="w-5 h-5" />
+          <p className="font-medium ml-1">Github</p>
+        </Link>
       </div>
       <Image
         width={500}
         height={460}
-        src="https://illustrations.popsy.co/white/taking-notes.svg"
+        src="/taking-notes.svg"
         alt="illustration"
       />
     </section>
