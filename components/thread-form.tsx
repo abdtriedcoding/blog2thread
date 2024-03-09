@@ -16,12 +16,12 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
-  numberOfTweets: z
-    .string()
+  numberOfTweets: z.coerce
+    .number()
     .min(1, {
       message: "Enter number of tweets to be generated.",
     })
-    .max(1, {
+    .max(5, {
       message: "Number of tweets limit exceeded.",
     }),
   article: z
@@ -30,7 +30,7 @@ const formSchema = z.object({
       message: "Article length must not exceed 17000 characters.",
     })
     .min(1, {
-      message: "Enter your artcile.",
+      message: "Enter your article.",
     }),
 });
 
@@ -38,10 +38,12 @@ export default function ThreadForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      numberOfTweets: "",
+      numberOfTweets: undefined,
       article: "",
     },
   });
+
+  const { isSubmitting } = form.formState;
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -50,7 +52,7 @@ export default function ThreadForm() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-4">
       <h2 className="text-xl font-bold w-full bg-clip-text text-transparent bg-gradient-to-b from-zinc-900 via-neutral-800 to-stone-900">
         Create a new thread
       </h2>
@@ -61,9 +63,9 @@ export default function ThreadForm() {
             name="numberOfTweets"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Number of Tweets (1-9)</FormLabel>
+                <FormLabel>Number of Tweets (1-5)</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,7 +89,9 @@ export default function ThreadForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button disabled={isSubmitting} type="submit">
+            Submit
+          </Button>
         </form>
       </Form>
     </div>
