@@ -1,3 +1,9 @@
+import ThreadForm from "@/components/thread-form";
+
 export default function CreatePage() {
-  return <div>CreatePage</div>;
+  return (
+    <>
+      <ThreadForm />
+    </>
+  );
 }
