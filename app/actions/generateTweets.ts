@@ -20,5 +20,6 @@ export default async function generateTweets(values: Inputs) {
 
   const response = generationResult.response;
   const text = response.text();
+  console.log(text);
   return text;
 }

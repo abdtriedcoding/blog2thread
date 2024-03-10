@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import Markdown from "./markdown";
 
 export default function ThreadForm() {
   const [tweets, setTweets] = useState("");
@@ -89,7 +90,7 @@ export default function ThreadForm() {
             key={index}
             className="bg-zinc-200 shadow-md relative z-[100] border border-zinc-300/60 rounded-md p-4 pr-10 text-zinc-900"
           >
-            {tweet.trim().slice(3)}
+            <Markdown text={tweet.trim()} />
             {/* <CopyButton text={tweet.trim().slice(3)} /> */}
           </p>
         ))}
