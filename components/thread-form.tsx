@@ -1,9 +1,13 @@
 "use client";
 
 import { z } from "zod";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { formSchema } from "@/lib/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import generateTweets from "@/app/actions/generateTweets";
+
 import {
   Form,
   FormControl,
@@ -15,9 +19,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import generateTweets from "@/app/actions/generateTweets";
 
 export default function ThreadForm() {
+  const [tweets, setTweets] = useState("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,10 +33,11 @@ export default function ThreadForm() {
   const { isSubmitting } = form.formState;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // console.log(values);
-    await generateTweets(values);
+    const toastId = toast.loading("Jarvis was  thinking...");
+    const text = await generateTweets(values);
+    setTweets(text);
+    toast.success("Your tweets are ready!");
+    toast.dismiss(toastId);
   }
 
   return (
@@ -78,6 +83,16 @@ export default function ThreadForm() {
           </Button>
         </form>
       </Form>
+      {tweets.trim() &&
+        tweets.split("\n\n").map((tweet: string, index: number) => (
+          <p
+            key={index}
+            className="bg-zinc-200 shadow-md relative z-[100] border border-zinc-300/60 rounded-md p-4 pr-10 text-zinc-900"
+          >
+            {tweet.trim().slice(3)}
+            {/* <CopyButton text={tweet.trim().slice(3)} /> */}
+          </p>
+        ))}
     </div>
   );
 }
