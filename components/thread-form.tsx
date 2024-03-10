@@ -1,6 +1,7 @@
 "use client";
 
 import { z } from "zod";
+import { formSchema } from "@/lib/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -14,25 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-
-const formSchema = z.object({
-  numberOfTweets: z.coerce
-    .number()
-    .min(1, {
-      message: "Enter number of tweets to be generated.",
-    })
-    .max(5, {
-      message: "Number of tweets limit exceeded.",
-    }),
-  article: z
-    .string()
-    .max(17000, {
-      message: "Article length must not exceed 17000 characters.",
-    })
-    .min(1, {
-      message: "Enter your article.",
-    }),
-});
+import generateTweets from "@/app/actions/generateTweets";
 
 export default function ThreadForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,10 +28,11 @@ export default function ThreadForm() {
 
   const { isSubmitting } = form.formState;
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
+    await generateTweets(values);
   }
 
   return (
