@@ -93,15 +93,18 @@ export default function ThreadForm() {
         </form>
       </Form>
       {tweets.trim() &&
-        tweets.split("\n\n").map((tweet: string, index: number) => (
-          <p
-            key={index}
-            className="bg-zinc-200 shadow-md relative z-[100] border border-zinc-300/60 rounded-md p-4 pr-10 text-zinc-900"
-          >
-            <Markdown text={tweet.trim()} />
-            {/* <CopyButton text={tweet.trim().slice(3)} /> */}
-          </p>
-        ))}
+        tweets
+          .substring(tweets.indexOf("1") + 3)
+          .split(/2\.|3\./)
+          .map((tweet: string, index: number) => (
+            <p
+              key={index}
+              className="bg-zinc-200 shadow-md relative z-[100] border border-zinc-300/60 rounded-md p-4 pr-10 text-zinc-900"
+            >
+              <Markdown text={tweet.trim()} />
+              {/* <CopyButton text={tweet.trim().slice(3)} /> */}
+            </p>
+          ))}
     </div>
   );
 }
