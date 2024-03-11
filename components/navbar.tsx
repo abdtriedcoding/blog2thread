@@ -23,7 +23,7 @@ export const Navbar = async () => {
         </div>
       ) : (
         <Button asChild>
-          <LoginLink>Log in</LoginLink>
+          <LoginLink postLoginRedirectURL="/create">Log in</LoginLink>
         </Button>
       )}
     </div>
