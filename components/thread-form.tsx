@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { formSchema } from "@/lib/schema";
 import { useForm } from "react-hook-form";
@@ -20,9 +20,18 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import Markdown from "./markdown";
+import CopyButton from "./copy-button";
 
 export default function ThreadForm() {
   const [tweets, setTweets] = useState("");
+  const tweetsRef = useRef<HTMLDivElement>(null);
+
+  const scrollToTweets = () => {
+    if (tweetsRef.current !== null) {
+      tweetsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,6 +48,7 @@ export default function ThreadForm() {
       toastId = toast.loading("AI is generating...");
       const text = await generateTweets(values);
       setTweets(text);
+      scrollToTweets();
       toast.success("Your tweets are ready!");
     } catch (error) {
       toast.error("An error occurred. Please try again.");
@@ -92,19 +102,18 @@ export default function ThreadForm() {
           </Button>
         </form>
       </Form>
-      {tweets.trim() &&
-        tweets
-          .substring(tweets.indexOf("1") + 3)
-          .split(/2\.|3\./)
-          .map((tweet: string, index: number) => (
-            <p
+      <div className="space-y-4" ref={tweetsRef}>
+        {tweets.trim() &&
+          tweets.split("\n\n").map((tweet, index) => (
+            <div
               key={index}
-              className="bg-zinc-200 shadow-md relative z-[100] border border-zinc-300/60 rounded-md p-4 pr-10 text-zinc-900"
+              className="bg-zinc-200 shadow-md relative z-[100] border flex space-x-3 border-zinc-300/60 rounded-md p-4 pr-10 text-zinc-900"
             >
-              <Markdown text={tweet.trim()} />
-              {/* <CopyButton text={tweet.trim().slice(3)} /> */}
-            </p>
+              <Markdown text={tweet.trim().slice(3)} />
+              <CopyButton text={tweet.trim().slice(3)} />
+            </div>
           ))}
+      </div>
     </div>
   );
 }

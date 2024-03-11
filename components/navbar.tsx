@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
@@ -15,7 +15,12 @@ export const Navbar = async () => {
         Blog2Thread
       </Link>
       {user ? (
-        <UserProfileMenu />
+        <div className="flex items-center justify-center space-x-2">
+          <Link href={"/create"} className={buttonVariants()}>
+            Enter
+          </Link>
+          <UserProfileMenu />
+        </div>
       ) : (
         <Button asChild>
           <LoginLink>Log in</LoginLink>
