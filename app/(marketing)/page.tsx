@@ -11,7 +11,8 @@ export default function Home() {
           turn your blogs into concise twitter threads
         </h2>
         <Link
-          href={"https://github.com/abdtriedcoding"}
+          target="_blank"
+          href={"https://github.com/abdtriedcoding/blog2thread"}
           className={buttonVariants({ variant: "secondary", size: "lg" })}
         >
           <Github className="w-5 h-5" />

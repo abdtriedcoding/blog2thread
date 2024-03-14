@@ -34,11 +34,19 @@ export default function ThreadForm() {
   const { isSubmitting } = form.formState;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const toastId = toast.loading("Jarvis was  thinking...");
-    const text = await generateTweets(values);
-    setTweets(text);
-    toast.success("Your tweets are ready!");
-    toast.dismiss(toastId);
+    let toastId;
+    try {
+      toastId = toast.loading("AI is generating...");
+      const text = await generateTweets(values);
+      setTweets(text);
+      toast.success("Your tweets are ready!");
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      if (toastId) {
+        toast.dismiss(toastId);
+      }
+    }
   }
 
   return (
