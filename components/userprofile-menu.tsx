@@ -40,12 +40,6 @@ export default async function UserProfileMenu() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={"/dashboard"}>Dashboard</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href={"/create"}>Create</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
           <LogoutLink>Logout</LogoutLink>
         </DropdownMenuItem>
       </DropdownMenuContent>
