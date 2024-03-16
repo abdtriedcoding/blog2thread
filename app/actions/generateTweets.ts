@@ -10,7 +10,7 @@ type Inputs = z.infer<typeof formSchema>;
 
 export default async function generateTweets(values: Inputs) {
   const data = formSchema.parse(values);
-  const prompt = `Turn this article into an interesting twitter thread that catches people's attention, your tone should be like that of a famous twitter thread creator, the first tweet should be an introduction tweet to the thread, the thread should consist of ${data.numberOfTweets} tweets of medium length each. Keep the links and people's name in the article as it is, and clearly label them like "1." and "2.",separate each tweet with a line gap, tweets should be written in first person - \n ${data.article}`;
+  const prompt = `Generate ${data.numberOfTweets} twitter threads by turning this article into an interesting twitter thread that catches people's attention and clearly labeled "1.", "2.", and "3.". Make sure each generated thread is less than 300 characters. and feel free to use this context as well for article: ${data.article}`;
 
   const generationResult = await genAI
     .getGenerativeModel({ model: "gemini-pro" })
@@ -20,5 +20,6 @@ export default async function generateTweets(values: Inputs) {
 
   const response = generationResult.response;
   const text = response.text();
+  console.log(text);
   return text;
 }
