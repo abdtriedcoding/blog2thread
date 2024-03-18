@@ -26,12 +26,6 @@ export default function ThreadForm() {
   const [tweets, setTweets] = useState("");
   const tweetsRef = useRef<HTMLDivElement>(null);
 
-  const scrollToTweets = () => {
-    if (tweetsRef.current !== null) {
-      tweetsRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,7 +42,6 @@ export default function ThreadForm() {
       toastId = toast.loading("AI is generating...");
       const text = await generateTweets(values);
       setTweets(text);
-      scrollToTweets();
       toast.success("Your tweets are ready!");
     } catch (error) {
       toast.error("An error occurred. Please try again.");
@@ -102,7 +95,7 @@ export default function ThreadForm() {
           </Button>
         </form>
       </Form>
-      <div className="space-y-4" ref={tweetsRef}>
+      <div className="space-y-4">
         {tweets.trim() &&
           tweets.split("\n\n").map((tweet, index) => (
             <div
